@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Canary Vape Shop</title>
+    <style>
+        :root {
+            --bg-dark: #121212;
+            --card-bg: #1e1e1e;
+            --primary: #00d2be;
+            --accent-pod: #00c49a;
+            --accent-aio: #ff4757;
+            --text-main: #ffffff;
+            --text-sec: #aaaaaa;
+            
+            /* Colores de Botes */
+            --btl-aroma: #3498db;   /* Azul */
+            --btl-sales-vg: #e67e22; /* Naranja */
+            --btl-sales-pg: #ff6b81; /* Rosa */
+            --btl-libre: #9b59b6;   /* Morado */
+            --btl-base:  #f1c40f;   /* Amarillo */
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, sans-serif;
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        /* HEADER */
+        .header-container { text-align: center; margin-bottom: 30px; }
+        
+        .header-logo {
+            max-width: 280px;
+            height: auto;
+            margin-bottom: 15px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            filter: invert(1); /* Invierte colores para logo negro -> blanco */
+        }
+
+        .header-title {
+            color: var(--primary);
+            margin: 0;
+            font-size: 1.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* CONFIG PANEL */
+        .config-panel {
+            background-color: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+            margin-bottom: 50px;
+            border-top: 3px solid var(--primary);
+        }
+
+        .grid-inputs {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        @media (max-width: 768px) { .grid-inputs { grid-template-columns: 1fr; } }
+
+        .input-group label {
+            display: block;
+            color: var(--text-sec);
+            margin-bottom: 8px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+
+        select {
+            width: 100%;
+            padding: 12px;
+            background: #2c2c2c;
+            border: 1px solid #444;
+            color: white;
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+        }
+        select:focus { border-color: var(--primary); }
+
+        button.main-btn {
+            width: 100%;
+            background-color: var(--primary);
+            color: #000;
+            border: none;
+            padding: 15px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+            text-transform: uppercase;
+        }
+        button.main-btn:hover { background-color: #00b8a5; }
+
+        /* CARDS */
+        .section-title {
+            text-align: center;
+            color: #f1c40f;
+            margin: 50px 0 30px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 1.5rem;
+        }
+
+        .cards-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+            justify-content: center;
+        }
+
+        .recipe-card {
+            background-color: var(--card-bg);
+            border-radius: 15px;
+            width: 300px;
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            border: 1px solid #333;
+            transition: transform 0.2s;
+        }
+        
+        .cards-grid:not(#dynamicResult) .recipe-card:hover { transform: translateY(-5px); }
+
+        .recipe-card.highlight {
+            border: 2px solid var(--primary);
+            box-shadow: 0 0 25px rgba(0, 210, 190, 0.2);
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .tag {
+            padding: 5px 10px;
+            border-radius: 6px;
+            color: white;
+            font-weight: bold;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        .tag.pod { background-color: var(--accent-pod); }
+        .tag.aio { background-color: var(--accent-aio); }
+
+        .device-info { font-weight: bold; font-size: 1.1rem; color: var(--primary); }
+        .recipe-card.highlight .device-info { font-size: 1.3rem; }
+
+        .bottles-visual {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin: 20px 0;
+            height: 60px;
+            align-items: flex-end;
+        }
+        .recipe-card.highlight .bottles-visual { height: 80px; }
+
+        .bottle-icon {
+            width: 24px; height: 50px;
+            border-radius: 6px; position: relative;
+        }
+        .recipe-card.highlight .bottle-icon { width: 32px; height: 70px; }
+
+        .bottle-icon::before {
+            content: ''; position: absolute; top: -5px; left: 4px;
+            width: 16px; height: 5px; background-color: rgba(255,255,255,0.6);
+            border-radius: 2px;
+        }
+        .recipe-card.highlight .bottle-icon::before { width: 22px; height: 6px; left: 5px; }
+
+        .b-aroma { background-color: var(--btl-aroma); box-shadow: 0 0 8px rgba(52, 152, 219, 0.4); }
+        .b-sales-vg { background-color: var(--btl-sales-vg); box-shadow: 0 0 8px rgba(230, 126, 34, 0.4); }
+        .b-sales-pg { background-color: var(--btl-sales-pg); box-shadow: 0 0 8px rgba(255, 107, 129, 0.4); }
+        .b-libre { background-color: var(--btl-libre); box-shadow: 0 0 8px rgba(155, 89, 182, 0.4); }
+        .b-base { background-color: var(--btl-base); box-shadow: 0 0 8px rgba(241, 196, 15, 0.4); }
+
+        .summary-line {
+            text-align: center; font-weight: bold; color: #ffcc00;
+            margin-bottom: 15px; font-size: 0.95rem;
+            background: rgba(255, 255, 255, 0.05); padding: 10px; border-radius: 8px;
+        }
+        .recipe-card.highlight .summary-line { font-size: 1.1rem; }
+
+        .ingredients-list {
+            background-color: #252525; padding: 15px; border-radius: 10px;
+            font-size: 0.9rem; color: #ddd;
+        }
+
+        .ing-item {
+            margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center;
+        }
+        .check { color: var(--primary); margin-right: 8px; font-weight: bold;}
+        
+        .tag-mini {
+            padding: 2px 6px; border-radius: 4px; color: white;
+            font-weight: bold; font-size: 0.7rem; text-transform: uppercase; margin-left: 5px;
+        }
+        
+        /* Pequeña animación para cuando cambia el select */
+        @keyframes flash {
+            0% { border-color: #444; }
+            50% { border-color: var(--primary); }
+            100% { border-color: #444; }
+        }
+        .updated-input {
+            animation: flash 0.5s ease-in-out;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <div class="header-container">
+        <img src="logo.svg" alt="Canary Vape Shop" class="header-logo">
+        <h1 class="header-title">Calculadora de Mezclas</h1>
+    </div>
+
+    <div class="config-panel">
+        <div class="grid-inputs">
+            
+            <div class="input-group">
+                <label>📍 1. Resistencia / Uso</label>
+                <select id="resistanceSelect" onchange="autoConfigure()">
+                    <option value="0.8">0.8 Ω POD (Ratio 50/50)</option>
+                    <option value="0.6_pod">0.6 Ω POD (Ratio 60/40)</option>
+                    <option value="0.4_pod">0.4 Ω POD Potente (70/30)</option>
+                    <option value="0.6_aio">0.6 Ω AIO (Ratio 60/40)</option>
+                    <option value="0.4_aio">0.4 Ω AIO (Ratio 70/30)</option>
+                    <option value="0.3_aio">0.3 Ω AIO (Ratio 70/30)</option>
+                    <option value="0.2_aio">0.2 Ω AIO Potente (70/30)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>📦 2. Formato Bote</label>
+                <select id="bottleSelect" onchange="updateNicOptions()">
+                    <option value="30">Mini 30ml (10ml Aroma)</option>
+                    <option value="60">Longfill 60ml (12ml Aroma)</option>
+                    <option value="120">Longfill 120ml (24ml Aroma)</option>
+                </select>
+            </div>
+
+            <div class="input-group">
+                <label>💧 3. Nicotina Deseada</label>
+                <select id="nicSelect">
+                    </select>
+            </div>
+        </div>
+
+        <button class="main-btn" onclick="calculateMix()">📝 CALCULAR FÓRMULA EXACTA</button>
+    </div>
+
+    <div id="dynamicResult" class="cards-grid" style="display:none; margin-bottom: 50px;"></div>
+
+    <h2 class="section-title">⭐ Fórmulas Verificadas Tienda ⭐</h2>
+    <div class="cards-grid">
+        
+        <div class="recipe-card">
+            <div class="card-header"><span class="tag pod">POD</span><span class="device-info">0.6Ω / 0.8Ω</span></div>
+            <div class="bottles-visual">
+                <div class="bottle-icon b-aroma"></div>
+                <div class="bottle-icon b-sales-pg"></div>
+                <div class="bottle-icon b-sales-vg"></div>
+            </div>
+            <div class="summary-line">~13mg Sales | Mini 30ml</div>
+            <div class="ingredients-list">
+                <div class="ing-item"><span><span class="check">✓</span> 10ml Aroma</span></div>
+                <div class="ing-item"><span><span class="check">✓</span> 1 Sales PG <span class="tag-mini" style="background:var(--btl-sales-pg)">ROSA</span></span></div>
+                <div class="ing-item"><span><span class="check">✓</span> 1 Sales VG <span class="tag-mini" style="background:var(--btl-sales-vg)">NARANJA</span></span></div>
+            </div>
+        </div>
+
+        <div class="recipe-card">
+            <div class="card-header"><span class="tag pod">POD</span><span class="device-info">0.8Ω (Suave)</span></div>
+            <div class="bottles-visual">
+                <div class="bottle-icon b-aroma"></div>
+                <div class="bottle-icon b-sales-vg"></div>
+                <div class="bottle-icon b-base"></div>
+            </div>
+            <div class="summary-line">3mg Sales | Bote 60ml</div>
+            <div class="ingredients-list">
+                <div class="ing-item"><span><span class="check">✓</span> 12ml Aroma</span></div>
+                <div class="ing-item"><span><span class="check">✓</span> 1 Sales VG <span class="tag-mini" style="background:var(--btl-sales-vg)">NARANJA</span></span></div>
+                <div class="ing-item"><span><span class="check">✓</span> Relleno VG</span> <span style="color:#aaa">~38ml</span></div>
+            </div>
+        </div>
+
+        <div class="recipe-card">
+            <div class="card-header"><span class="tag aio">AIO</span><span class="device-info">0.6Ω Armour</span></div>
+            <div class="bottles-visual">
+                <div class="bottle-icon b-aroma"></div>
+                <div class="bottle-icon b-libre"></div>
+                <div class="bottle-icon b-libre"></div>
+                <div class="bottle-icon b-base"></div>
+            </div>
+            <div class="summary-line">6mg Libre | Bote 60ml</div>
+            <div class="ingredients-list">
+                <div class="ing-item"><span><span class="check">✓</span> 12ml Aroma</span></div>
+                <div class="ing-item"><span><span class="check">✓</span> 2 Nico Libre <span class="tag-mini" style="background:var(--btl-libre)">70/30</span></span></div>
+                <div class="ing-item"><span><span class="check">✓</span> Relleno VG</span> <span style="color:#aaa">~28ml</span></div>
+            </div>
+        </div>
+
+        <div class="recipe-card">
+            <div class="card-header"><span class="tag aio">AIO</span><span class="device-info">0.2Ω / 0.3Ω Drag</span></div>
+            <div class="bottles-visual">
+                <div class="bottle-icon b-aroma"></div>
+                <div class="bottle-icon b-libre"></div>
+                <div class="bottle-icon b-libre"></div>
+                <div class="bottle-icon b-base"></div>
+            </div>
+            <div class="summary-line">3mg Libre | Bote 120ml</div>
+            <div class="ingredients-list">
+                <div class="ing-item"><span><span class="check">✓</span> 24ml Aroma</span></div>
+                <div class="ing-item"><span><span class="check">✓</span> 2 Nico Libre <span class="tag-mini" style="background:var(--btl-libre)">70/30</span></span></div>
+                <div class="ing-item"><span><span class="check">✓</span> Relleno VG</span> <span style="color:#aaa">~76ml</span></div>
+            </div>
+        </div>
+        
+         <div class="recipe-card">
+            <div class="card-header"><span class="tag aio">AIO</span><span class="device-info">0.4Ω Gen/Luxe</span></div>
+            <div class="bottles-visual">
+                <div class="bottle-icon b-aroma"></div>
+                <div class="bottle-icon b-libre"></div>
+                <div class="bottle-icon b-libre"></div>
+                <div class="bottle-icon b-libre"></div>
+                <div class="bottle-icon b-libre"></div>
+            </div>
+            <div class="summary-line">6mg Libre | Bote 120ml</div>
+            <div class="ingredients-list">
+                <div class="ing-item"><span><span class="check">✓</span> 24ml Aroma</span></div>
+                <div class="ing-item"><span><span class="check">✓</span> 4 Nico Libre <span class="tag-mini" style="background:var(--btl-libre)">70/30</span></span></div>
+                <div class="ing-item"><span><span class="check">✓</span> Relleno VG</span> <span style="color:#aaa">~56ml</span></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    // --- DATOS TÉCNICOS ---
+    const PRESETS = {
+        '0.8':      { type: 'POD', targetVG: 50, useFreebase: false },
+        '0.6_pod':  { type: 'POD', targetVG: 60, useFreebase: false },
+        '0.4_pod':  { type: 'POD', targetVG: 70, useFreebase: true },
+        '0.6_aio':  { type: 'AIO', targetVG: 60, useFreebase: true },
+        '0.4_aio':  { type: 'AIO', targetVG: 70, useFreebase: true },
+        '0.3_aio':  { type: 'AIO', targetVG: 70, useFreebase: true },
+        '0.2_aio':  { type: 'AIO', targetVG: 70, useFreebase: true }
+    };
+
+    // VALORES VÁLIDOS DE NICOTINA POR BOTE
+    const NIC_OPTIONS = {
+        '30': [0, 3, 6, 12],                // Mini: Solo estos
+        '60': [0, 1.5, 3, 6, 9, 12],        // Normal: Rango completo (Sin 20)
+        '120': [0, 1.5, 3, 6, 9, 12]        // Grande: Rango completo (Sin 20)
+    };
+
+    // Inicializar al cargar
+    window.onload = function() {
+        updateNicOptions(); // Carga las opciones iniciales
+    };
+
+    function updateNicOptions() {
+        const bottleVal = document.getElementById('bottleSelect').value;
+        const nicSelect = document.getElementById('nicSelect');
+        const currentVal = nicSelect.value; // Guardar valor actual si es posible
+
+        // Limpiar opciones
+        nicSelect.innerHTML = "";
+
+        // Obtener lista válida
+        const validOptions = NIC_OPTIONS[bottleVal] || NIC_OPTIONS['60'];
+
+        // Crear opciones
+        validOptions.forEach(val => {
+            const opt = document.createElement('option');
+            opt.value = val;
+            opt.text = val === 0 ? "0 mg (Sin Nicotina)" : `${val} mg`;
+            nicSelect.appendChild(opt);
+        });
+
+        // Intentar mantener selección o ir al default más seguro (3mg)
+        if (validOptions.includes(parseFloat(currentVal))) {
+            nicSelect.value = currentVal;
+        } else {
+            nicSelect.value = "3"; // Default seguro
+        }
+    }
+
+    function autoConfigure() {
+        try {
+            const res = document.getElementById('resistanceSelect').value;
+            const bottleSel = document.getElementById('bottleSelect');
+            
+            // 1. Configurar Bote
+            if(res === '0.8' || res === '0.6_pod') {
+                bottleSel.value = "30"; 
+            } else if (res.includes('aio') || res === '0.4_pod') {
+                bottleSel.value = "120"; 
+            }
+            
+            // 2. IMPORTANTE: Actualizar opciones de nicotina según el bote nuevo
+            updateNicOptions();
+
+            // 3. Poner Nicotina Sugerida (si está disponible en la lista nueva)
+            const nicSel = document.getElementById('nicSelect');
+            if(res === '0.8' || res === '0.6_pod') {
+                nicSel.value = "6"; 
+            } else {
+                nicSel.value = "3";
+            }
+
+        } catch (e) {
+            console.error("Error en autoconfigure", e);
+        }
+    }
+
+    function calculateMix() {
+        try {
+            const resKey = document.getElementById('resistanceSelect').value;
+            const totalVol = parseInt(document.getElementById('bottleSelect').value);
+            const targetNic = parseFloat(document.getElementById('nicSelect').value);
+            
+            const config = PRESETS[resKey];
+            if (!config) { alert("Error: Configuración no encontrada."); return; }
+
+            // 1. Aroma
+            let aromaVol = 0;
+            if(totalVol === 30) aromaVol = 10;
+            if(totalVol === 60) aromaVol = 12;
+            if(totalVol === 120) aromaVol = 24;
+
+            // 2. Nicotina (Redondeo al alza)
+            const exactNicoVol = (targetNic * totalVol) / 20;
+            let numNicokits = Math.ceil(exactNicoVol / 10); 
+            let nicoVolReal = numNicokits * 10;
+
+            const maxSpace = totalVol - aromaVol;
+            if (nicoVolReal > maxSpace) {
+                numNicokits = Math.floor(maxSpace / 10);
+                nicoVolReal = numNicokits * 10;
+            }
+
+            // 3. Base VG
+            let baseVol = totalVol - aromaVol - nicoVolReal;
+            if (baseVol < 0) baseVol = 0;
+
+            // 4. Equilibrio
+            let salesVG = 0;
+            let salesPG = 0;
+            let finalVGPercent = 0;
+
+            if (config.useFreebase) {
+                const vgFromNico = nicoVolReal * 0.7;
+                const vgFromBase = baseVol; 
+                const totalVG = vgFromNico + vgFromBase;
+                finalVGPercent = Math.round((totalVG / totalVol) * 100);
+            } else {
+                let bestDiff = 100;
+                let bestCombo = { vg: numNicokits, pg: 0 }; 
+
+                for (let i = 0; i <= numNicokits; i++) {
+                    let tempVG = i; 
+                    let tempPG = numNicokits - i;
+                    let volVG = baseVol + (tempVG * 10);
+                    let percentVG = (volVG / totalVol) * 100;
+                    
+                    let diff = Math.abs(percentVG - config.targetVG);
+                    if (diff < bestDiff) {
+                        bestDiff = diff;
+                        bestCombo = { vg: tempVG, pg: tempPG };
+                        finalVGPercent = Math.round(percentVG);
+                    }
+                }
+                salesVG = bestCombo.vg;
+                salesPG = bestCombo.pg;
+            }
+
+            // 5. Generar HTML
+            let iconsHtml = `<div class="bottle-icon b-aroma" title="Aroma"></div>`;
+            
+            if (config.useFreebase) {
+                for(let i=0; i<numNicokits; i++) iconsHtml += `<div class="bottle-icon b-libre" title="Libre"></div>`;
+            } else {
+                for(let i=0; i<salesPG; i++) iconsHtml += `<div class="bottle-icon b-sales-pg" title="Sales PG"></div>`;
+                for(let i=0; i<salesVG; i++) iconsHtml += `<div class="bottle-icon b-sales-vg" title="Sales VG"></div>`;
+            }
+
+            if (baseVol > 1) iconsHtml += `<div class="bottle-icon b-base" title="Relleno VG"></div>`;
+
+            let deviceText = document.getElementById('resistanceSelect').options[document.getElementById('resistanceSelect').selectedIndex].text;
+            let deviceName = deviceText.split('(')[0];
+
+            const resultHTML = `
+            <div class="recipe-card highlight">
+                <div class="card-header">
+                    <span class="device-info">${deviceName}</span>
+                    <span class="tag ${config.type === 'POD' ? 'pod' : 'aio'}">${config.type}</span>
+                </div>
+                
+                <div class="bottles-visual">${iconsHtml}</div>
+
+                <div class="summary-line">
+                    ${targetNic}mg Objetivo | Calc: ${finalVGPercent}VG / ${100-finalVGPercent}PG
+                </div>
+
+                <div class="ingredients-list">
+                    <div class="ing-item">
+                        <span><span class="check">✓</span> Aroma</span>
+                        <span style="color:#aaa">${aromaVol}ml</span>
+                    </div>
+
+                    ${config.useFreebase && numNicokits > 0 ? `
+                    <div class="ing-item">
+                        <span><span class="check">✓</span> <b>${numNicokits}</b> x Nico Libre</span>
+                        <span class="tag-mini" style="background:var(--btl-libre);">70/30</span>
+                    </div>` : ''}
+
+                    ${!config.useFreebase && salesVG > 0 ? `
+                    <div class="ing-item">
+                        <span><span class="check">✓</span> <b>${salesVG}</b> x Sales VG</span>
+                        <span class="tag-mini" style="background:var(--btl-sales-vg);">NARANJA</span>
+                    </div>` : ''}
+
+                    ${!config.useFreebase && salesPG > 0 ? `
+                    <div class="ing-item">
+                        <span><span class="check">✓</span> <b>${salesPG}</b> x Sales PG</span>
+                        <span class="tag-mini" style="background:var(--btl-sales-pg);">ROSA</span>
+                    </div>` : ''}
+
+                    ${baseVol > 1 ? `
+                    <div class="ing-item">
+                        <span><span class="check">✓</span> Relleno Base VG</span>
+                        <span style="color:#aaa">${baseVol.toFixed(0)}ml</span>
+                    </div>` : ''}
+
+                    ${baseVol <= 1 && numNicokits > 0 ? `
+                    <div class="ing-item" style="color:#ffcc00; font-style:italic; font-size:0.85rem; margin-top:5px; justify-content: center;">
+                         Solo Nicokits (Sin espacio para base)
+                    </div>` : ''}
+                    
+                    <div style="margin-top:15px; border-top:1px solid #444; padding-top:10px; font-size:0.9rem; color:#888; text-align: center;">
+                        <span style="color:var(--primary)">🡆</span> Agitar enérgicamente.
+                    </div>
+                </div>
+            </div>
+            `;
+
+            const resContainer = document.getElementById('dynamicResult');
+            resContainer.style.display = 'flex';
+            resContainer.innerHTML = resultHTML;
+            resContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        } catch (error) {
+            alert("Error cálculo: " + error.message);
+        }
+    }
+</script>
+
+</body>
+</html>
