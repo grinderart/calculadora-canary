@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Hoja Maestra de Mezclas - Canary Vape Shop</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap');
+
+        :root {
+            --primary: #00d2be;
+            --text: #222;
+            --border: #ddd;
+            
+            /* Colores Botes */
+            --btl-aroma: #3498db;
+            --btl-sales-vg: #e67e22;
+            --btl-sales-pg: #ff6b81; 
+            --btl-libre: #9b59b6;
+            --btl-base:  #f1c40f;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background: white;
+            color: var(--text);
+            margin: 0;
+            padding: 20px;
+            -webkit-print-color-adjust: exact; 
+            print-color-adjust: exact;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            border-bottom: 3px solid var(--primary);
+            padding-bottom: 10px;
+        }
+
+        .logo {
+            max-width: 250px;
+            height: auto;
+            /* Fuerza logo negro para papel */
+            filter: brightness(0); 
+        }
+
+        h1 {
+            text-transform: uppercase;
+            font-size: 24px;
+            margin: 10px 0 0 0;
+            color: #333;
+        }
+
+        h2 {
+            background: #eee;
+            padding: 8px;
+            border-left: 5px solid var(--primary);
+            margin-top: 30px;
+            font-size: 18px;
+            text-transform: uppercase;
+            page-break-after: avoid; 
+        }
+
+        .grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 15px;
+        }
+
+        .card {
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            background: #fff;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.05);
+            break-inside: avoid;
+            page-break-inside: avoid;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .nic-badge {
+            background: #222;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .type-badge {
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+            color: #666;
+            border: 1px solid #ccc;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+
+        .visuals {
+            display: flex;
+            justify-content: center;
+            gap: 4px; /* Un poco más apretado para que quepan 7 nicos */
+            margin-bottom: 10px;
+            height: 40px;
+            align-items: flex-end;
+        }
+
+        .bottle {
+            width: 16px; height: 35px; border-radius: 3px; position: relative;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+        .bottle::before {
+            content: ''; position: absolute; top: -3px; left: 3px;
+            width: 8px; height: 3px; background: rgba(0,0,0,0.2);
+        }
+        .bottle.half { height: 20px; margin-bottom: 0; }
+
+        .b-aroma { background: var(--btl-aroma); }
+        .b-sales-vg { background: var(--btl-sales-vg); }
+        .b-sales-pg { background: var(--btl-sales-pg); }
+        .b-libre { background: var(--btl-libre); }
+        .b-base { background: var(--btl-base); }
+
+        ul { list-style: none; padding: 0; margin: 0; font-size: 11px; }
+        li { display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dotted #eee;}
+        .cant { font-weight: bold; }
+        
+        .note {
+            font-size: 10px; color: #666; font-style: italic; margin-top: 5px; text-align: center; font-weight: bold;
+        }
+
+        .print-footer {
+            margin-top: 40px; text-align: center; font-size: 10px; color: #999;
+            border-top: 1px solid #eee; padding-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <img src="logo.svg" alt="Canary Vape Shop" class="logo"> 
+    <h1>Guía Maestra de Mezclas</h1>
+</header>
+
+<h2>📦 Mini Longfill 30ml (PODS)</h2>
+<div class="grid-container">
+    
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">3 mg</span>
+            <span class="type-badge">Sales</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-sales-vg half"></div>
+            <div class="bottle b-base"></div>
+        </div>
+        <ul>
+            <li><span>Aroma PG</span> <span class="cant">10ml</span></li>
+            <li><span>Sales VG</span> <span class="cant">0.5 Bote (5ml)</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~15ml</span></li>
+        </ul>
+        <div class="note">Aprox 3.3mg | Guardar resto nicokit</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">6 mg</span>
+            <span class="type-badge">Sales</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-sales-vg"></div>
+            <div class="bottle b-base"></div>
+        </div>
+        <ul>
+            <li><span>Aroma PG</span> <span class="cant">10ml</span></li>
+            <li><span>1 x Sales VG</span> <span class="cant">NARANJA</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~10ml</span></li>
+        </ul>
+        <div class="note">Ratio: 60/40</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">12 mg</span>
+            <span class="type-badge">Sales</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-sales-pg"></div>
+            <div class="bottle b-sales-vg"></div>
+        </div>
+        <ul>
+            <li><span>Aroma PG</span> <span class="cant">10ml</span></li>
+            <li><span>1 x Sales PG</span> <span class="cant">ROSA</span></li>
+            <li><span>1 x Sales VG</span> <span class="cant">NARANJA</span></li>
+        </ul>
+        <div class="note">Equilibrio Ideal Pods</div>
+    </div>
+
+</div>
+
+<h2>📦 Longfill 60ml</h2>
+<div class="grid-container">
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">3 mg</span>
+            <span class="type-badge">Libre</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-base"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">12ml</span></li>
+            <li><span>1 x Libre 70/30</span> <span class="cant">MORADO</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~38ml</span></li>
+        </ul>
+        <div class="note">Estándar DL</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">6 mg</span>
+            <span class="type-badge">Libre</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-base"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">12ml</span></li>
+            <li><span>2 x Libre 70/30</span> <span class="cant">MORADO</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~28ml</span></li>
+        </ul>
+        <div class="note">Estándar AIO/RDL</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">9 mg</span>
+            <span class="type-badge">Libre</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">12ml</span></li>
+            <li><span>3 x Libre 70/30</span> <span class="cant">MORADO</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~18ml</span></li>
+        </ul>
+        <div class="note">Golpe Fuerte</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">12 mg</span>
+            <span class="type-badge">Sales</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-sales-vg"></div>
+            <div class="bottle b-sales-vg"></div>
+            <div class="bottle b-sales-pg"></div>
+            <div class="bottle b-sales-pg"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">12ml</span></li>
+            <li><span>2 x Sales VG</span> <span class="cant">NARANJA</span></li>
+            <li><span>2 x Sales PG</span> <span class="cant">ROSA</span></li>
+        </ul>
+        <div class="note">Sin base libre. Solo Nicokits.</div>
+    </div>
+
+</div>
+
+<h2>📦 Longfill 120ml</h2>
+<div class="grid-container">
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">3 mg</span>
+            <span class="type-badge">Libre</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-base"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">24ml</span></li>
+            <li><span>2 x Libre 70/30</span> <span class="cant">MORADO</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~76ml</span></li>
+        </ul>
+        <div class="note">Cloud Chasing</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">6 mg</span>
+            <span class="type-badge">Libre</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">24ml</span></li>
+            <li><span>4 x Libre 70/30</span> <span class="cant">MORADO</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~56ml</span></li>
+        </ul>
+        <div class="note">Golpe medio/alto</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">9 mg</span>
+            <span class="type-badge">Libre</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">24ml</span></li>
+            <li><span>5 x Libre 70/30</span> <span class="cant">MORADO</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~46ml</span></li>
+        </ul>
+        <div class="note">Golpe alto</div>
+    </div>
+
+    <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">12 mg</span>
+            <span class="type-badge">Libre</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+            <div class="bottle b-libre"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">24ml</span></li>
+            <li><span>7 x Libre 70/30</span> <span class="cant">MORADO</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~26ml</span></li>
+        </ul>
+        <div class="note">Máximo golpe Base Libre</div>
+    </div>
+
+     <div class="card">
+        <div class="card-header">
+            <span class="nic-badge">6 mg</span>
+            <span class="type-badge">Sales</span>
+        </div>
+        <div class="visuals">
+            <div class="bottle b-aroma"></div>
+            <div class="bottle b-sales-vg"></div>
+            <div class="bottle b-sales-vg"></div>
+            <div class="bottle b-sales-pg"></div>
+            <div class="bottle b-sales-pg"></div>
+            <div class="bottle b-base"></div>
+        </div>
+        <ul>
+            <li><span>Aroma</span> <span class="cant">24ml</span></li>
+            <li><span>2 x Sales VG</span> <span class="cant">NARANJA</span></li>
+            <li><span>2 x Sales PG</span> <span class="cant">ROSA</span></li>
+            <li><span>Relleno VG</span> <span class="cant">~56ml</span></li>
+        </ul>
+        <div class="note">Ratio: 60/40 (Exacto)</div>
+    </div>
+
+    <div class="card">
+       <div class="card-header">
+           <span class="nic-badge">12 mg</span>
+           <span class="type-badge">Sales</span>
+       </div>
+       <div class="visuals">
+           <div class="bottle b-aroma"></div>
+           <div class="bottle b-sales-vg"></div>
+           <div class="bottle b-sales-vg"></div>
+           <div class="bottle b-sales-vg"></div>
+           <div class="bottle b-sales-vg"></div>
+           <div class="bottle b-sales-vg"></div>
+           <div class="bottle b-sales-pg"></div>
+           <div class="bottle b-sales-pg"></div>
+           <div class="bottle b-base"></div>
+       </div>
+       <ul>
+           <li><span>Aroma</span> <span class="cant">24ml</span></li>
+           <li><span>5 x Sales VG</span> <span class="cant">NARANJA</span></li>
+           <li><span>2 x Sales PG</span> <span class="cant">ROSA</span></li>
+           <li><span>Relleno VG</span> <span class="cant">~26ml</span></li>
+       </ul>
+       <div class="note">Ratio: 60/40</div>
+   </div>
+    
+</div>
+
+<div class="print-footer">
+    Canary Vape Shop ©. Verificar stock antes de mezclar. Agitar enérgicamente antes de entregar.
+</div>
+
+</body>
+</html>
