@@ -1,39 +1,31 @@
-# 💨 Calculadora de Mezclas - Canary Vape Shop
+# 💨 Canary Vape Shop - Calculadora de Mezclas & Herramientas
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg) ![Status](https://img.shields.io/badge/status-production-green.svg) ![Stack](https://img.shields.io/badge/tech-HTML%20%7C%20CSS%20%7C%20JS-yellow.svg)
+![Status](https://img.shields.io/badge/estado-producción-green)
+![Tech](https://img.shields.io/badge/stack-HTML5%20|%20CSS3%20|%20JS-blue)
+![Version](https://img.shields.io/badge/version-1.2.0-orange)
 
-Web App de uso interno diseñada para optimizar y estandarizar el proceso de venta y mezcla de eliquids en mostrador. Automatiza los cálculos de alquimia basándose en la resistencia del dispositivo del cliente y el formato del bote.
+Aplicación Web Progresiva (PWA) de uso interno diseñada para **estandarizar la alquimia y optimizar la venta** en el mostrador. Herramienta "Todo en Uno" para el cálculo de e-liquids, consulta de resistencias y generación de guías físicas.
 
-## 🚀 Propósito del Proyecto
+## 🚀 Funcionalidades Clave
 
-El objetivo principal es **eliminar el error humano** en la tienda y **normalizar las mezclas**. La aplicación asegura que, independientemente de quién atienda, el cliente siempre reciba el líquido con la proporción VG/PG y nicotina exacta para su dispositivo.
+### 🧠 1. Algoritmo Inteligente de Hardware
+El sistema elimina el error humano calculando la mezcla ideal basándose en el dispositivo del cliente:
+* **PODS (0.8Ω - 1.2Ω):** Prioriza Sales de Nicotina y ratios 50/50.
+* **AIO / RDL (0.6Ω - 0.4Ω):** Balancea entre Sales y Base Libre automáticamente.
+* **Sub-Ohm (0.3Ω - 0.2Ω):** Fuerza Base Libre y Max VG (70/30).
 
-## ✨ Funcionalidades Clave
+### 🧪 2. Química de Precisión
+Calcula el equilibrio exacto de **Sales VG vs Sales PG**.
+* *Ejemplo:* Si la receta requiere 2 nicokits para un Pod, la app puede sugerir **1 VG + 1 PG** para mantener la densidad correcta y evitar fugas.
 
-### 🧠 1. Lógica Inteligente de Hardware
-El sistema no solo calcula ml, sino que sugiere la mezcla según la resistencia:
-* **PODS (0.8Ω - 1.2Ω):** Prioriza Sales de Nicotina y ratios 50/50 o 60/40.
-* **AIO / RDL (0.6Ω - 0.4Ω):** Balancea entre Sales y Base Libre según potencia.
-* **Sub-Ohm / Cloud (0.3Ω - 0.2Ω):** Prioriza Base Libre y Max VG (70/30).
+### 💰 3. Lógica de Venta (Upselling)
+El motor de cálculo aplica un **redondeo estratégico al alza** en los nicokits.
+* *Objetivo:* Evitar botes abiertos en stock y maximizar el ticket medio vendiendo unidades completas.
 
-### 🧪 2. Algoritmo de Equilibrio Químico
-Para conseguir el ratio objetivo (ej. 60VG/40PG) usando nicokits de Sales (que vienen en 100% VG o 100% PG), la app calcula combinaciones exactas:
-* *Ejemplo:* Si se necesitan 2 nicokits, la app puede sugerir **1 Naranja (VG)** y **1 Rosa (PG)** para equilibrar la mezcla automáticamente.
-
-### 💰 3. Estrategia de Venta (Upselling)
-El algoritmo de cálculo de nicotina aplica un **redondeo al alza** en el número de nicokits necesarios.
-* *Beneficio:* Asegura la venta del nicokit completo y evita acumular restos de botes abiertos en la tienda.
-
-### 🎨 4. Sistema Visual de Iconos (CSS Puro)
-Para facilitar la rapidez en mostrador, se utilizan códigos de color visuales sin necesidad de imágenes pesadas:
-* 🔵 **Azul:** Aroma
-* 🟠 **Naranja:** Sales VG
-* 💗 **Rosa:** Sales PG
-* 🟣 **Morado:** Base Libre
-* 🟡 **Amarillo:** Base de Relleno
-
-### 📄 5. Módulo de Impresión (Cheat Sheet)
-Incluye un enlace directo a una **Guía Maestra de Mezclas** (`imprimir.html`) optimizada para impresora (fondo blanco, alto contraste) para tener una referencia física plastificada en tienda.
+### ⚡ 4. Centro de Recursos
+* **Calculadora:** Núcleo principal de mezclas.
+* **Guía de Resistencias (`coils.html`):** Catálogo interactivo visual para explicar al cliente los tipos de calada (MTL, RDL, DTL) y potencias recomendadas.
+* **Cheat Sheet PDF (`imprimir.html`):** Generador de tablas de referencia optimizadas para impresión (Ink-saver) para uso físico en tienda.
 
 ---
 
@@ -41,7 +33,8 @@ Incluye un enlace directo a una **Guía Maestra de Mezclas** (`imprimir.html`) o
 
 ```text
 /
-├── index.html       # La Aplicación Web (Calculadora)
-├── imprimir.html    # La Guía Maestra para imprimir (PDF)
-├── logo.svg         # Logotipo vectorial (se invierte auto según fondo)
-└── README.md        # Documentación
+├── index.html       # 🏠 Calculadora Principal (SPA)
+├── coils.html       # ⚡ Guía Interactiva de Resistencias y Potencias
+├── imprimir.html    # 🖨️ Hoja Maestra para imprimir (PDF)
+├── logo.svg         # 🎨 Logotipo vectorial (Adaptable)
+└── README.md        # 📄 Documentación
