@@ -35,6 +35,12 @@
         /* HEADER */
         .header-container { text-align: center; margin-bottom: 30px; }
         
+        .logo-link {
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+        .logo-link:hover { transform: scale(1.05); }
+
         .header-logo {
             max-width: 280px;
             height: auto;
@@ -106,7 +112,7 @@
         }
         button.main-btn:hover { background-color: #00b8a5; }
 
-        /* ESTILOS BOTÓN AYUDA (NUEVO) */
+        /* SECCIÓN AYUDA Y BOTONES FOOTER */
         .help-section {
             text-align: center;
             margin-top: 60px;
@@ -114,9 +120,18 @@
             border-top: 1px solid #333;
             padding-top: 30px;
         }
+
+        .help-buttons-container {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap; 
+        }
         
         .help-btn {
-            display: inline-block;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             text-decoration: none;
             color: var(--text-sec);
             border: 2px solid #444;
@@ -125,12 +140,14 @@
             font-weight: bold;
             font-size: 0.9rem;
             transition: all 0.3s ease;
+            min-width: 220px;
         }
         
         .help-btn:hover {
             border-color: var(--primary);
             color: var(--primary);
             background: rgba(0, 210, 190, 0.05);
+            transform: translateY(-3px);
         }
 
         /* CARDS */
@@ -247,7 +264,9 @@
 <div class="container">
     
     <div class="header-container">
-        <img src="logo.svg" alt="Canary Vape Shop" class="header-logo">
+        <a href="https://www.canaryvapeshop.com" target="_blank" class="logo-link">
+            <img src="logo.svg" alt="Canary Vape Shop" class="header-logo">
+        </a>
         <h1 class="header-title">Calculadora de Mezclas</h1>
     </div>
 
@@ -373,9 +392,14 @@
     </div>
 
     <div class="help-section">
-        <a href="imprimir.html" target="_blank" class="help-btn">
-            📄 VER GUÍA MAESTRA DE MEZCLAS (AYUDA)
-        </a>
+        <div class="help-buttons-container">
+            <a href="imprimir.html" target="_blank" class="help-btn">
+                📄 GUÍA DE MEZCLAS (PDF)
+            </a>
+            <a href="coils.html" class="help-btn">
+                ⚡ GUÍA DE RESISTENCIAS
+            </a>
+        </div>
     </div>
 
 </div>
