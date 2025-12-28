@@ -489,6 +489,11 @@
             // 2. Nicotina
             const exactNicoVol = (targetNic * totalVol) / 20;
             let numNicokits = Math.ceil(exactNicoVol / 10); 
+            
+            // Excepción específica: Si es Mini 30ml a 3mg, usar 0.5 botes
+            if (totalVol === 30 && targetNic === 3) {
+                numNicokits = 0.5;
+            }
             let nicoVolReal = numNicokits * 10;
 
             const maxSpace = totalVol - aromaVol;
