@@ -31,6 +31,8 @@ El motor de cálculo aplica un **redondeo estratégico al alza** en los nicokits
 
 ## 📂 Estructura del Proyecto
 
+Para testearla entra en esta url -> https://grinderart.github.io/calculadora-canary/
+
 ```text
 /
 ├── index.html       # 🏠 Calculadora Principal (SPA)
