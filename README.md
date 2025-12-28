@@ -38,3 +38,5 @@ El motor de cálculo aplica un **redondeo estratégico al alza** en los nicokits
 ├── imprimir.html    # 🖨️ Hoja Maestra para imprimir (PDF)
 ├── logo.svg         # 🎨 Logotipo vectorial (Adaptable)
 └── README.md        # 📄 Documentación
+
+## Se ha utilizado IA para generar algunos fragmentos de codigo , sobretodo los de cálculo.
