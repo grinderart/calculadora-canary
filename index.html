@@ -42,7 +42,7 @@
             display: block;
             margin-left: auto;
             margin-right: auto;
-            filter: invert(1); /* Invierte colores para logo negro -> blanco */
+            filter: invert(1); 
         }
 
         .header-title {
@@ -105,6 +105,33 @@
             text-transform: uppercase;
         }
         button.main-btn:hover { background-color: #00b8a5; }
+
+        /* ESTILOS BOTÓN AYUDA (NUEVO) */
+        .help-section {
+            text-align: center;
+            margin-top: 60px;
+            margin-bottom: 40px;
+            border-top: 1px solid #333;
+            padding-top: 30px;
+        }
+        
+        .help-btn {
+            display: inline-block;
+            text-decoration: none;
+            color: var(--text-sec);
+            border: 2px solid #444;
+            padding: 12px 25px;
+            border-radius: 30px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        
+        .help-btn:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+            background: rgba(0, 210, 190, 0.05);
+        }
 
         /* CARDS */
         .section-title {
@@ -213,17 +240,6 @@
             padding: 2px 6px; border-radius: 4px; color: white;
             font-weight: bold; font-size: 0.7rem; text-transform: uppercase; margin-left: 5px;
         }
-        
-        /* Pequeña animación para cuando cambia el select */
-        @keyframes flash {
-            0% { border-color: #444; }
-            50% { border-color: var(--primary); }
-            100% { border-color: #444; }
-        }
-        .updated-input {
-            animation: flash 0.5s ease-in-out;
-        }
-
     </style>
 </head>
 <body>
@@ -355,6 +371,13 @@
         </div>
 
     </div>
+
+    <div class="help-section">
+        <a href="imprimir.html" target="_blank" class="help-btn">
+            📄 VER GUÍA MAESTRA DE MEZCLAS (AYUDA)
+        </a>
+    </div>
+
 </div>
 
 <script>
@@ -369,30 +392,25 @@
         '0.2_aio':  { type: 'AIO', targetVG: 70, useFreebase: true }
     };
 
-    // VALORES VÁLIDOS DE NICOTINA POR BOTE
+    // VALORES VÁLIDOS DE NICOTINA
     const NIC_OPTIONS = {
-        '30': [0, 3, 6, 12],                // Mini: Solo estos
-        '60': [0, 1.5, 3, 6, 9, 12],        // Normal: Rango completo (Sin 20)
-        '120': [0, 1.5, 3, 6, 9, 12]        // Grande: Rango completo (Sin 20)
+        '30': [0, 3, 6, 12],                
+        '60': [0, 1.5, 3, 6, 9, 12],        
+        '120': [0, 1.5, 3, 6, 9, 12]        
     };
 
-    // Inicializar al cargar
     window.onload = function() {
-        updateNicOptions(); // Carga las opciones iniciales
+        updateNicOptions(); 
     };
 
     function updateNicOptions() {
         const bottleVal = document.getElementById('bottleSelect').value;
         const nicSelect = document.getElementById('nicSelect');
-        const currentVal = nicSelect.value; // Guardar valor actual si es posible
+        const currentVal = nicSelect.value; 
 
-        // Limpiar opciones
         nicSelect.innerHTML = "";
-
-        // Obtener lista válida
         const validOptions = NIC_OPTIONS[bottleVal] || NIC_OPTIONS['60'];
 
-        // Crear opciones
         validOptions.forEach(val => {
             const opt = document.createElement('option');
             opt.value = val;
@@ -400,11 +418,10 @@
             nicSelect.appendChild(opt);
         });
 
-        // Intentar mantener selección o ir al default más seguro (3mg)
         if (validOptions.includes(parseFloat(currentVal))) {
             nicSelect.value = currentVal;
         } else {
-            nicSelect.value = "3"; // Default seguro
+            nicSelect.value = "3"; 
         }
     }
 
@@ -413,27 +430,21 @@
             const res = document.getElementById('resistanceSelect').value;
             const bottleSel = document.getElementById('bottleSelect');
             
-            // 1. Configurar Bote
             if(res === '0.8' || res === '0.6_pod') {
                 bottleSel.value = "30"; 
             } else if (res.includes('aio') || res === '0.4_pod') {
                 bottleSel.value = "120"; 
             }
             
-            // 2. IMPORTANTE: Actualizar opciones de nicotina según el bote nuevo
             updateNicOptions();
 
-            // 3. Poner Nicotina Sugerida (si está disponible en la lista nueva)
             const nicSel = document.getElementById('nicSelect');
             if(res === '0.8' || res === '0.6_pod') {
                 nicSel.value = "6"; 
             } else {
                 nicSel.value = "3";
             }
-
-        } catch (e) {
-            console.error("Error en autoconfigure", e);
-        }
+        } catch (e) { console.error(e); }
     }
 
     function calculateMix() {
@@ -443,7 +454,7 @@
             const targetNic = parseFloat(document.getElementById('nicSelect').value);
             
             const config = PRESETS[resKey];
-            if (!config) { alert("Error: Configuración no encontrada."); return; }
+            if (!config) { alert("Error config"); return; }
 
             // 1. Aroma
             let aromaVol = 0;
@@ -451,7 +462,7 @@
             if(totalVol === 60) aromaVol = 12;
             if(totalVol === 120) aromaVol = 24;
 
-            // 2. Nicotina (Redondeo al alza)
+            // 2. Nicotina
             const exactNicoVol = (targetNic * totalVol) / 20;
             let numNicokits = Math.ceil(exactNicoVol / 10); 
             let nicoVolReal = numNicokits * 10;
@@ -462,7 +473,7 @@
                 nicoVolReal = numNicokits * 10;
             }
 
-            // 3. Base VG
+            // 3. Base
             let baseVol = totalVol - aromaVol - nicoVolReal;
             if (baseVol < 0) baseVol = 0;
 
@@ -497,7 +508,7 @@
                 salesPG = bestCombo.pg;
             }
 
-            // 5. Generar HTML
+            // 5. HTML
             let iconsHtml = `<div class="bottle-icon b-aroma" title="Aroma"></div>`;
             
             if (config.useFreebase) {
@@ -572,9 +583,7 @@
             resContainer.innerHTML = resultHTML;
             resContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-        } catch (error) {
-            alert("Error cálculo: " + error.message);
-        }
+        } catch (error) { alert("Error cálculo: " + error.message); }
     }
 </script>
 
